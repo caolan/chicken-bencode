@@ -1,0 +1,6 @@
+((synopsis "Bencoding parser and serializer")
+ (author "Caolan McMahon")
+ (category parsing)
+ (license "BSD")
+ (depends miscmacros vector-lib)
+ (test-depends test))

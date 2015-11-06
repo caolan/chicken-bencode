@@ -1,0 +1,7 @@
+(compile -O2 -d1 -s "bencode.scm" -Iinclude -j "bencode")
+(compile -O2 -d0 -s "bencode.import.scm")
+
+(install-extension
+  'bencode
+  '("bencode.so" "bencode.import.so")
+  '((version "1.0.0")))
