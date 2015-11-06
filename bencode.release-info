@@ -1,0 +1,3 @@
+(repo git "git://github.com/caolan/chicken-bencode.git")
+(uri targz "https://github.com/caolan/chicken-bencode/tarball/{egg-release}")
+(release "1.0.0")
