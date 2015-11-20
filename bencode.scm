@@ -1,4 +1,10 @@
-(module bencode (read-bencode write-bencode)
+(module bencode
+
+;; exports
+(read-bencode
+ write-bencode
+ bencode->string
+ string->bencode)
 
 (import chicken scheme)
 (use data-structures extras miscmacros ports vector-lib)
@@ -156,5 +162,11 @@
 
 (define (write-bencode data #!optional (port (current-output-port)))
   (with-output-to-port port (cut encode data)))
+
+(define (string->bencode str)
+  (call-with-input-string str read-bencode))
+
+(define (bencode->string data)
+  (call-with-output-string (cut write-bencode data <>)))
 
 )

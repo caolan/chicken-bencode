@@ -175,3 +175,13 @@
   (encode-error-test "symbol"
                      "can only encode alist, vector, integer, or string"
                      'asdf))
+
+(test-group "working with strings"
+  (test "string->bencode"
+        #(1 2 "foo")
+        (string->bencode "li1ei2e3:fooe"))
+  (test "bencode->string"
+        "li1ei2e3:fooe"
+        (bencode->string #(1 2 "foo"))))
+
+(test-exit)
