@@ -32,11 +32,11 @@
                (acc initial)
                (position (+ start 1)))
       (cond
+       ((eof-object? ch)
+        (unexpected-end (+ position 1)))
        ((char=? ch #\e)
         (discard-char) ;; discard end marker #\e
         (values (finally acc) (+ position 1)))
-       ((eof-object? ch)
-        (unexpected-end (+ position 1)))
        (else
         (receive (data new-position) (decode position)
           (loop (peek-char)
@@ -48,13 +48,13 @@
              (position (+ start 1))
              (ch (read-char)))
     (cond
+     ((eof-object? ch)
+      (unexpected-end position))
      ((char=? ch delimiter)
       (let ((n (string->number (list->string (reverse chars)))))
         (if n
             (values n position)
             (unexpected-char ch position))))
-     ((eof-object? ch)
-      (unexpected-end position))
      ((or (digit? ch) (and negative (char=? ch #\-)))
       (loop (cons ch chars)
             (+ position 1)
