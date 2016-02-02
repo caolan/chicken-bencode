@@ -1,3 +1,6 @@
+1.2.0
+    - encode/decode errors will now raise a condition object of type
+      (exn bencode)
 1.1.1
     - bugfix for CHICKEN 4.10.1 (but should probably have been failing before)
       caused all decoding procedures to fail incorrectly on unexpected EOF

@@ -23,4 +23,5 @@ dictionary  | alist in (symbol . *) form
 
 Attempting to bencode a scheme type not on the above list,
 or attempting to encode a non-integer number will cause
-an exception.
+an exception. Condition objects arising from encode/decode
+errors will have the type `(exn bencode)`.

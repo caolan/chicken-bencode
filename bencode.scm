@@ -14,16 +14,23 @@
 (define (digit? ch)
   (and (char>=? ch #\0) (char<=? ch #\9)))
 
+(define (make-bencode-condition location message)
+  (make-composite-condition
+    (make-property-condition
+      'exn
+      'location location
+      'message message)
+    (make-property-condition 'bencode)))
+
 (define (unexpected-end position)
-  (error 'read-bencode
-         (sprintf "unexpected end of input at char ~A"
-           position)))
+  (abort
+    (make-bencode-condition 'read-bencode
+      (sprintf "unexpected end of input at char ~A" position))))
 
 (define (unexpected-char ch position)
-  (error 'read-bencode
-         (sprintf "unexpected character '~A' at char ~A"
-           ch
-           position)))
+  (abort
+    (make-bencode-condition 'read-bencode
+      (sprintf "unexpected character '~A' at char ~A" ch position))))
 
 (define (make-decode-fold iterator initial finally)
   (lambda (start)
@@ -91,15 +98,16 @@
              (set! key #f))
             (begin
               (unless (string? x)
-                (error 'read-bencode
-                       (sprintf "expected bencoded string as key at char ~A"
-                         start)))
+                (abort
+                  (make-bencode-condition 'read-bencode
+                    (sprintf "expected bencoded string as key at char ~A"
+                             start))))
               (when (and last-key (string<? x last-key))
-                (error 'read-bencode
-                  (sprintf
-                    "key ~S starting at char ~A is not in lexographical order"
-                    x
-                    start)))
+                (abort
+                  (make-bencode-condition 'read-bencode
+                    (sprintf
+                      "key ~S starting at char ~A is not in lexographical order"
+                      x start))))
               (set! key x)
               acc)))
       '()
@@ -123,8 +131,9 @@
         data))))
 
 (define (invalid-type x)
-  (error 'write-bencode
-         "can only encode alist, vector, integer, or string"))
+  (abort
+    (make-bencode-condition 'write-bencode
+      "can only encode alist, vector, integer, or string")))
 
 (define (encode-string x)
   (display (conc (string-length x) ":" x)))
