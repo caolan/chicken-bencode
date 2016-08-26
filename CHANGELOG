@@ -1,3 +1,5 @@
+1.2.1
+    - fix for failing to report version number correctly (in .setup)
 1.2.0
     - encode/decode errors will now raise a condition object of type
       (exn bencode)
