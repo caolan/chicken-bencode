@@ -1,3 +1,7 @@
+1.2.2
+    - read-bencode will now return #f when reading an #!eof as the
+      first char from a port (similar to medea), previously this caused an
+      exception
 1.2.1
     - fix for failing to report version number correctly (in .setup)
 1.2.0
