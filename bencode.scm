@@ -127,8 +127,9 @@
 (define (read-bencode #!optional (port (current-input-port)))
   (with-input-from-port port
     (lambda ()
-      (receive (data position) (decode)
-        data))))
+      (and (not (eof-object? (peek-char)))
+	   (receive (data position) (decode)
+	     data)))))
 
 (define (invalid-type x)
   (abort
