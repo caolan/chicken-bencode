@@ -1,4 +1,6 @@
-(use test bencode)
+(cond-expand
+ (chicken-4 (use test bencode))
+ (chicken-5 (import test bencode (chicken condition) (chicken port))))
 
 (define-syntax decode-test
   (syntax-rules ()

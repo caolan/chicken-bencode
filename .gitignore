@@ -2,3 +2,5 @@
 /*.c
 /*.o
 /bencode.import.scm
+/*.sh
+/*.link

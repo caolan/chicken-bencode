@@ -6,8 +6,22 @@
  bencode->string
  string->bencode)
 
-(import chicken scheme)
-(use data-structures extras miscmacros ports vector-lib)
+(cond-expand
+ (chicken-4
+  (import chicken scheme)
+  (use data-structures extras miscmacros ports vector-lib))
+ (chicken-5
+  (import
+   scheme
+   (chicken base)
+   (chicken condition)
+   (chicken port)
+   (chicken io)
+   (chicken format)
+   (chicken sort)
+   (chicken string)
+   miscmacros
+   vector-lib)))
 
 (define discard-char read-char)
 

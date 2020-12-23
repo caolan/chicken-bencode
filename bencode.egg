@@ -1,0 +1,7 @@
+((synopsis "Bencoding parser and serializer")
+ (author "Caolan McMahon")
+ (category parsing)
+ (license "BSD")
+ (dependencies miscmacros vector-lib)
+ (test-dependencies test)
+ (components (extension bencode)))
