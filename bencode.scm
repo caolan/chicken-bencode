@@ -101,7 +101,7 @@
    '()
    (compose list->vector reverse)))
 
-(define (decode-dictionary position)
+(define (decode-dictionary position strict?)
   (let ((key #f) (last-key #f))
     ((make-decode-fold
       (lambda (x start end acc)
@@ -116,7 +116,7 @@
                   (make-bencode-condition 'read-bencode
                     (sprintf "expected bencoded string as key at char ~A"
                              start))))
-              (when (and last-key (string<? x last-key))
+              (when (and (and last-key (string<? x last-key) strict?))
                 (abort
                   (make-bencode-condition 'read-bencode
                     (sprintf
@@ -128,21 +128,21 @@
       reverse)
      position)))
 
-(define (decode #!optional (position 0))
+(define (decode #!optional (position 0) (strict? #t))
   (let ((ch (peek-char)))
     (cond
      ((digit? ch) (decode-string position))
      ((char=? ch #\i) (decode-integer position))
      ((char=? ch #\l) (decode-list position))
-     ((char=? ch #\d) (decode-dictionary position))
+     ((char=? ch #\d) (decode-dictionary position strict?))
      (else
       (unexpected-char ch (+ position 1))))))
 
-(define (read-bencode #!optional (port (current-input-port)))
+(define (read-bencode #!optional (port (current-input-port)) (strict? #t))
   (with-input-from-port port
     (lambda ()
       (and (not (eof-object? (peek-char)))
-	   (receive (data position) (decode)
+	   (receive (data position) (decode 0 strict?)
 	     data)))))
 
 (define (invalid-type x)
