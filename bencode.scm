@@ -6,13 +6,13 @@
  bencode->string
  string->bencode)
 
+(import scheme)
 (cond-expand
  (chicken-4
-  (import chicken scheme)
+  (import chicken)
   (use data-structures extras miscmacros ports vector-lib))
  (chicken-5
   (import
-   scheme
    (chicken base)
    (chicken condition)
    (chicken port)
